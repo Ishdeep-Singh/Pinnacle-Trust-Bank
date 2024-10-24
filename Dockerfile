@@ -7,6 +7,7 @@ WORKDIR /app
 # Copy the Maven wrapper, mvnw, and pom.xml
 COPY .mvn/ .mvn
 COPY mvnw ./
+RUN ls -la
 COPY pom.xml ./
 
 # Ensure the Maven wrapper is executable
