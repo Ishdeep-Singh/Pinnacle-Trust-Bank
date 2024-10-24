@@ -21,5 +21,5 @@ RUN bash ./mvnw dependency:resolve
 # Copy the source code
 COPY src ./src
 
-# Build the application
-RUN bash ./mvnw package -DskipTests
+# Clean and build the application with detailed error output
+RUN bash ./mvnw clean package -DskipTests -e
