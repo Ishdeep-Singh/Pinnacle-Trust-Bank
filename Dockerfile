@@ -7,17 +7,19 @@ WORKDIR /app
 # Copy the Maven wrapper, mvnw, and pom.xml
 COPY .mvn/ .mvn
 COPY mvnw ./
-RUN ls -la
 COPY pom.xml ./
+
+# Convert mvnw to Unix line endings (optional but recommended)
+RUN apt-get update && apt-get install -y dos2unix && dos2unix mvnw
 
 # Ensure the Maven wrapper is executable
 RUN chmod +x mvnw
 
 # Go online to download dependencies
-RUN ./mvnw dependency:resolve
+RUN bash ./mvnw dependency:resolve
 
 # Copy the source code
 COPY src ./src
 
 # Build the application
-RUN ./mvnw package -DskipTests
+RUN bash ./mvnw package -DskipTests
