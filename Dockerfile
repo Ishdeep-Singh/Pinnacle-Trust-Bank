@@ -14,7 +14,7 @@ COPY pom.xml ./
 RUN chmod +x mvnw
 
 # Go online to download dependencies
-RUN /app/mvnw dependency:resolve
+RUN ./mvnw dependency:resolve
 
 # Copy the source code
 COPY src ./src
