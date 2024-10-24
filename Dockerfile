@@ -11,8 +11,8 @@ COPY mvnw pom.xml ./
 # Ensure the Maven wrapper is executable
 RUN chmod +x mvnw
 
-# Go offline to download dependencies
-RUN ./mvnw dependency:go-offline
+# Go online to download dependencies
+RUN ./mvnw dependency:resolve
 
 # Copy the source code
 COPY src ./src
