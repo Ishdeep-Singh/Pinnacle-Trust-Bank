@@ -6,24 +6,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 @Configuration
 public class JacksonConfig {
 
     @Bean
-    public ObjectMapper objectMapper(CustomerDeserializer customerDeserializer, AccountDeserializer accountDeserializer) {
-        ObjectMapper mapper = new ObjectMapper();
+    public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder,
+                                     CustomerDeserializer customerDeserializer,
+                                     AccountDeserializer accountDeserializer) {
+        // Create a module to register the custom deserializers
+        SimpleModule customModule = new SimpleModule();
+        customModule.addDeserializer(Customer.class, customerDeserializer);
+        customModule.addDeserializer(Account.class, accountDeserializer);
 
-        // Configure the module to handle custom deserializers
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Customer.class, customerDeserializer);
-        module.addDeserializer(Account.class, accountDeserializer);
-
-        // Register the module with the object mapper
-        mapper.registerModule(module);
-
-        return mapper;
+        // Use the builder to create and configure the ObjectMapper with the custom module
+        return builder.modules(customModule).build();
     }
-
-
 }
