@@ -26,6 +26,6 @@ public class CustomerController {
     }
     @GetMapping("/customers")
     public String getCustomers() {
-        return "";
+        return "All Customers Data";
     }
 }
