@@ -1,10 +1,12 @@
 package com.example.banking.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +47,14 @@ public abstract class  Customer {
 
     @JsonProperty("customerType")
     private String customerType;
+
+    private boolean enabled = false;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime signedUpTimeStamp = LocalDateTime.now();
+
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
 
     public Customer() {
     }
@@ -124,5 +134,29 @@ public abstract class  Customer {
 
     public String getRiskProfile() {
         return riskProfile;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public LocalDateTime getSignedUpTimeStamp() {
+        return signedUpTimeStamp;
+    }
+
+    public void setSignedUpTimeStamp(LocalDateTime signedUpTimeStamp) {
+        this.signedUpTimeStamp = signedUpTimeStamp;
     }
 }

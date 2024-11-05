@@ -20,7 +20,28 @@ public class EmailService {
         EmailService.emailConfig = emailConfig;
     }
 
-    public static void sendVerificationEmail(Customer customer, JavaMailSender mailSender)
+    public static String RequiredString(int size)
+    {
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder s = new StringBuilder(size);
+        int y;
+        for ( y = 0; y < size; y++) {
+            // generating a random number
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+            // add Character one by one in end of s
+            s.append(AlphaNumericString
+                    .charAt(index));
+        }
+        return s.toString();
+    }
+
+    public static void sendVerificationEmail(Customer customer, JavaMailSender mailSender, String siteURL)
             throws MessagingException, UnsupportedEncodingException {
         String fromAddress = emailConfig.getFromAddress();
         String senderName = emailConfig.getSenderName();
@@ -37,6 +58,11 @@ public class EmailService {
 
         content = content.replace("[[name]]", customer.getName());
         content = content.replace("[[customerId]]", customer.getCustomerId()+"");
+
+
+        String verifyURL = siteURL + "/verify_customer?code=" + customer.getVerificationCode();
+        content = content.replace("[[URL]]", verifyURL);
+
         helper.setText(content, true);
 
         System.out.println();
