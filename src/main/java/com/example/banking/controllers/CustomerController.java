@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 
 @RestController
+@RequestMapping("/customer")
 public class CustomerController {
 
     private CustomerService customerService;
@@ -17,7 +18,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PostMapping("/customer")
+    @PostMapping("/")
     public Customer createCustomer(@RequestBody Customer customer, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
         String siteURL = request.getRequestURL().toString();
         siteURL = siteURL.replace(request.getServletPath(), "");
@@ -25,7 +26,7 @@ public class CustomerController {
         return createdCustomer;
     }
 
-    @GetMapping("/customers")
+    @GetMapping("/")
     public String getCustomers() {
         return "All Customers Data";
     }
