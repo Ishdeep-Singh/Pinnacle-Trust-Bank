@@ -1,9 +1,6 @@
 package com.example.banking.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 @Entity
@@ -24,6 +21,7 @@ public abstract class Account {
     @SequenceGenerator(name = "ACCOUNT_ID_GEN", sequenceName = "ACCOUNT_ID_SEQ", allocationSize = 1)
     private long accountId;
 
+    @JsonProperty("balance")
     private double balance;
     private double lastTransactionAmount;
 
@@ -32,9 +30,14 @@ public abstract class Account {
 
     @ManyToOne
     @JoinColumn(name = "FK_CUST_ID")
-    @JsonIgnore
+    @JsonBackReference
     private Customer customer;
-
+    @PrePersist
+    protected void setDefaultAccountType() {
+        if (this.accountType == null) {
+            this.accountType = this.getClass().getSimpleName(); // Default to the subclass name
+        }
+    }
     public Account() {
     }
 

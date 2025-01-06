@@ -1,9 +1,6 @@
 package com.example.banking.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -38,6 +35,7 @@ public abstract class  Customer {
     // Common fields
     private Date dateOfBirth;
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Account> accounts = new ArrayList<>();
     @JsonProperty("TIN_SSN_SIN")
     private int TIN_SSN_SIN;
@@ -158,5 +156,9 @@ public abstract class  Customer {
 
     public void setSignedUpTimeStamp(LocalDateTime signedUpTimeStamp) {
         this.signedUpTimeStamp = signedUpTimeStamp;
+    }
+
+    public void linkAccount(Account account){
+        accounts.add(account);
     }
 }

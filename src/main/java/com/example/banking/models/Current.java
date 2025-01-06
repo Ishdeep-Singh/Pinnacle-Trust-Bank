@@ -23,7 +23,9 @@ public class Current extends Account{
 
     public void setMinimumInitialDeposit(double minimumInitialDeposit) {
         this.minimumInitialDeposit = minimumInitialDeposit;
-        this.setBalance(minimumInitialDeposit);
+        if (this.getBalance() == 0) {
+            this.setBalance(minimumInitialDeposit);
+        }
     }
 
     public float getDefaultInterestRate() {
